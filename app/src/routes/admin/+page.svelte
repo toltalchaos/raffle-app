@@ -5,7 +5,13 @@
 
     onMount(async () => {
         try {
-            const response = await fetch('/api/get_raffle_entries');
+            const response = await fetch('/api', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: localStorage.getItem('user')
+                }
+            });
             raffleEntries = await response.json();
         } catch (error) {
             console.error('Error fetching raffle entries:', error);

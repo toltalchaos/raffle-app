@@ -19,6 +19,7 @@
 		} catch (error) {
 			console.error('Login failed:', error);
 			// Handle login error
+			//https://firebase.google.com/docs/auth/web/password-auth#sign_in_a_user_with_an_email_address_and_password
 			// ...
 		}
 	}
