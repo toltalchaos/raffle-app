@@ -10,7 +10,7 @@
 		try {
 			// Authenticate user with Firebase Auth
 			const response = await firebase.auth().signInWithEmailAndPassword(username, password);
-
+			console.log('Login successful:', response);
 			// Store user credentials in local storage
 			localStorage.setItem('user', JSON.stringify(response.user));
 

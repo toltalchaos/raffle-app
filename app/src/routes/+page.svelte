@@ -1,10 +1,12 @@
 <script>
+    let name = '';
+    let age = '';
+    let email = '';
+    let phone = '';
+
+
     async function handleSubmit(event) {
         event.preventDefault();
-        const name = event.target.name.value;
-        const age = event.target.age.value;
-        const email = event.target.email.value;
-        const phone = event.target.phone.value;
 
         const formData = {
             name,
@@ -30,16 +32,16 @@
 <div>
 <form>
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
+    <input type="text" id="name" name="name" required bind:value={name}>
 
     <label for="age">Age:</label>
-    <input type="number" id="age" name="age" required>
+    <input type="number" id="age" name="age" required bind:value={age}>
 
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+    <input type="email" id="email" name="email" required bind:value={email}>
 
     <label for="phone">Phone Number:</label>
-    <input type="tel" id="phone" name="phone" required>
+    <input type="tel" id="phone" name="phone" required bind:value={phone}>
 
     <button type="submit" on:click={handleSubmit}>Submit</button>
 </form>
