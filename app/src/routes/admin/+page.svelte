@@ -1,9 +1,12 @@
 <script>
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
+
 
     let raffleEntries = [];
 
     onMount(async () => {
+
         try {
             const response = await fetch('/api', {
                 method: 'GET',

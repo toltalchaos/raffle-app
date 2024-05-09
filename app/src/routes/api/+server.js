@@ -10,6 +10,8 @@ import {
 } from '$env/static/private';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, child, get } from 'firebase/database';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 
 // Import the necessary dependencies
 
@@ -29,6 +31,8 @@ const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 // const firestoreApp = getFirestore(app);
 const db = getDatabase(app);
+const auth = getAuth(app);
+
 
 // Define the GET function to fetch data from Firebase
 export async function GET(requestEvent) {

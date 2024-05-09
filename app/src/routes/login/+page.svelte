@@ -1,37 +1,38 @@
 <script>
-	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	export let data; //get the async data from our server file
 
 	let username = '';
 	let password = '';
 
 	async function login() {
-		console.log('Logging in...', username, password);
 		try {
 			// Authenticate user with Firebase Auth
-			const response = await firebase.auth().signInWithEmailAndPassword(username, password);
-			console.log('Login successful:', response);
-			// Store user credentials in local storage
-			localStorage.setItem('user', JSON.stringify(response.user));
+			const response = await fetch('/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					authorization: 'user:password',
+					username: username,
+					password: password
+				}
+			});
+			if (response.ok) {
+				console.log('Login successful:', response);
+				// Store user credentials in local storage
+				localStorage.setItem('user', JSON.stringify(response.user));
 
-			// Redirect to home page or perform any other action
-			// Redirect to home page or perform any other action
-			goto('/admin');
+				goto('/admin');
+			}
+			else {
+				console.error('Login failed:', response);
+				throw new Error('Login failed. Please check your username and password.');
+			}
 		} catch (error) {
 			console.error('Login failed:', error);
-			// Handle login error
-			//https://firebase.google.com/docs/auth/web/password-auth#sign_in_a_user_with_an_email_address_and_password
-			// ...
+			alert(error.message);
 		}
 	}
-
-	onMount(() => {
-		// Initialize Firebase SDK
-		firebase.initializeApp({
-			// Your Firebase configuration
-			// ...
-		});
-	});
 </script>
 
 <main>
