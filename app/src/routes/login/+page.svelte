@@ -6,6 +6,7 @@
 	let password = '';
 
 	async function login() {
+		console.log('Logging in...', username, password);
 		try {
 			// Authenticate user with Firebase Auth
 			const response = await firebase.auth().signInWithEmailAndPassword(username, password);

@@ -33,19 +33,21 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // Define the GET function to fetch data from Firebase
-export async function get(req, res) {
+export async function GET(requestEvent) {
+    console.log('get function', await requestEvent.request.json())
+    const auth = await requestEvent.request.headers.get('Authorization');
     // check firebase auth in the header
-    if (!req.headers.authorization) {
+    if (!auth) {
         return new Response('Unauthorized', { status: 401 });
     }
     else {
-        const auth = req.headers.authorization;
+        
         // make firebase auth check here
         // if not authenticated, return 401
         // if authenticated, continue
         const authenticated = await //..
     }
-
+    //get and return all entries
     const dbref = ref(db);
     try {
         const entries = await get(child(dbref, 'entries'));
@@ -62,11 +64,11 @@ export async function get(req, res) {
 }
 
 // Define the POST function to send data to Firebase
-export async function post(req, res) {
-    console.log('post function', req.body)
+export async function POST(requestEvent) {
     try {
         // Get the data from the request body
-        const { name, age, email, phone } = req.body;
+        const { name, age, email, phone } = await requestEvent.request.json();;
+        console.log('post function', name, age, email, phone)
         
         // Save the data to Firebase
         await set(ref(db,('entries/'+ name + phone), {
