@@ -12,33 +12,31 @@
 				headers: {
 					'Content-Type': 'application/json',
 					username: username,
-					password: password,
+					password: password
 				}
 			});
-			if (response.ok) {
+			console.log('Login response:', response);
+			if (response.ok && response.status === 200) {
 				// Store user credentials in local storage
 				localStorage.setItem('username', username);
 				localStorage.setItem('password', password);
-				localStorage.setItem("loginTime", new Date().getTime());
+				localStorage.setItem('loginTime', new Date().getTime());
 
 				goto('/admin');
-			}
-			else {
-				console.error('Login failed:', response);
+			} else {
 				throw new Error('Login failed. Please check your username and password.');
 			}
 		} catch (error) {
-			console.error('Login failed:', error);
 			alert(error.message);
 		}
 	}
 </script>
 
-<main>
+<div >
 	<h1>Login</h1>
-	<form on:submit|preventDefault={login}>
+	<form on:submit|preventDefault={login} class="the-form">
 		<label>
-			Username:
+			Email:
 			<input type="text" bind:value={username} />
 		</label>
 		<label>
@@ -47,8 +45,17 @@
 		</label>
 		<button type="submit">Login</button>
 	</form>
-</main>
+</div>
 
 <style>
-	/* Your CSS styles */
+	.the-form{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	label {
+		display: flex;
+		flex-direction: column;
+		margin: 1rem;
+	}
 </style>

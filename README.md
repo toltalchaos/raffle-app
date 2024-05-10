@@ -28,8 +28,6 @@ create RTDB - test mode - no auth required
 security kindof sucks eggs but for MOST people it should keep them away, unless they find a way to interact directly with the RTDB. 
 
 ## todo
-
-- create way to export user data as a manager
 - style
 - test and document deployment 
 - QR code

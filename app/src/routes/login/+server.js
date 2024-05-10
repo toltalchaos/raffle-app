@@ -37,7 +37,6 @@ export async function POST(requestEvent) {
         const user = userCredential.user;
         return new Response(JSON.stringify(user));
     } catch (error) {
-		console.log(error);
-        return new Response("ERROR");
+        return new Response("ERROR", { status: 500 });
     }
 }
