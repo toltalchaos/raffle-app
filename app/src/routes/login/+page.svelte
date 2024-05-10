@@ -19,7 +19,6 @@
 			if (response.ok) {
 				// Store user credentials in local storage
 				const userData = await response.json();
-				console.log('Login successful:', userData);
 				localStorage.setItem('userToken', userData.stsTokenManager.accessToken);
 				localStorage.setItem('user', JSON.stringify(userData.user));
 				localStorage.setItem("loginTime", new Date().getTime());

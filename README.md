@@ -26,3 +26,10 @@ create RTDB - test mode - no auth required
 ```
 
 security kindof sucks eggs but for MOST people it should keep them away, unless they find a way to interact directly with the RTDB. 
+
+## todo
+
+- create raffle draw logic
+- create way to export user data as a manager
+- style
+- refine security by applying rules on RTDB and DB calls
