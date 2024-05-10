@@ -33,3 +33,6 @@ security kindof sucks eggs but for MOST people it should keep them away, unless 
 - create way to export user data as a manager
 - style
 - refine security by applying rules on RTDB and DB calls
+  - env user to WRITE calls
+  - login user to READ 
+  - https://firebase.google.com/docs/database/security#section-authorization
