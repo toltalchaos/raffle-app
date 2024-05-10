@@ -10,7 +10,7 @@ import {
 } from '$env/static/private';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, child, get } from 'firebase/database';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithCustomToken } from "firebase/auth";
 
 
 // Import the necessary dependencies
@@ -36,28 +36,23 @@ const auth = getAuth(app);
 
 // Define the GET function to fetch data from Firebase
 export async function GET(requestEvent) {
-    console.log('get function', await requestEvent.request.json())
-    // const auth = await requestEvent.request.headers.get('Authorization');
-    // // check firebase auth in the header
-    // if (!auth) {
-    //     return new Response('Unauthorized', { status: 401 });
-    // }
-    // else {
-        
-    //     // make firebase auth check here
-    //     // if not authenticated, return 401
-    //     // if authenticated, continue
-    //     // const authenticated = await //..
-    //     return true;
-    // }
-    //get and return all entries
-    const dbref = ref(db);
     try {
-        const entries = await get(child(dbref, 'entries'));
-        if (entries.exists()) {
-            return new Response(JSON.stringify(entries.val()), { status: 200 });
+        // Get the user access token from the request headers
+        const accessToken = await requestEvent.request.headers.get("authorization");
+        const loginTime = await requestEvent.request.headers.get("loginTime");
+
+        if (isValidToken(accessToken, loginTime)) {
+            // Access token is valid, proceed with fetching data from Firebase
+            const dbref = ref(db);
+            const entries = await get(child(dbref, 'entries'));
+            if (entries.exists()) {
+                return new Response(JSON.stringify(entries.val()), { status: 200 });
+            } else {
+                return new Response('entries not found', { status: 404 });
+            }
         } else {
-            return new Response('entries not found', { status: 404 });
+            // Access token is invalid, return an unauthorized response
+            return new Response('Unauthorized', { status: 401 });
         }
     } catch (error) {
         // Handle any errors
@@ -86,5 +81,28 @@ export async function POST(requestEvent) {
         // Handle any errors
         console.error(error);
         return new Response('Invalid entity', { status: 400 });
+    }
+}
+
+
+//define a function to validate the user access token
+async function isValidToken(accessToken, loginTime) {
+    try {
+        // Validate the access token
+        // const user = await signInWithCustomToken(auth, accessToken);
+        // Validate the login time
+        // if (user.metadata.lastSignInTime === loginTime) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+        if (accessToken && loginTime < Date.now() - (2 * 60 * 60 * 1000)) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error(error);
+        return false;
     }
 }

@@ -6,13 +6,14 @@
     let raffleEntries = [];
 
     onMount(async () => {
-
+        console.log('Fetching raffle entries...', localStorage.getItem('userToken'));
         try {
             const response = await fetch('/api', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    authorization: localStorage.getItem('user')
+                    authorization: localStorage.getItem('userToken'),
+                    'loginTime': localStorage.getItem('loginTime') || '',
                 }
             });
             raffleEntries = await response.json();

@@ -12,15 +12,17 @@
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					authorization: 'user:password',
 					username: username,
-					password: password
+					password: password,
 				}
 			});
 			if (response.ok) {
-				console.log('Login successful:', response);
 				// Store user credentials in local storage
-				localStorage.setItem('user', JSON.stringify(response.user));
+				const userData = await response.json();
+				console.log('Login successful:', userData);
+				localStorage.setItem('userToken', userData.stsTokenManager.accessToken);
+				localStorage.setItem('user', JSON.stringify(userData.user));
+				localStorage.setItem("loginTime", new Date().getTime());
 
 				goto('/admin');
 			}

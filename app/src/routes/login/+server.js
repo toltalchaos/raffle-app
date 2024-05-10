@@ -34,7 +34,6 @@ export async function POST(requestEvent) {
 	const password = await requestEvent.request.headers.get("password");
     try {
         const userCredential = await signInWithEmailAndPassword(auth, username, password);
-		console.log(userCredential);
         const user = userCredential.user;
         return new Response(JSON.stringify(user));
     } catch (error) {
