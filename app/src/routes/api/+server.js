@@ -10,8 +10,7 @@ import {
 } from '$env/static/private';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, child, get } from 'firebase/database';
-import { getAuth, signInWithCustomToken } from "firebase/auth";
-
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 // Import the necessary dependencies
 
@@ -33,76 +32,48 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
-
 // Define the GET function to fetch data from Firebase
 export async function GET(requestEvent) {
-    try {
-        // Get the user access token from the request headers
-        const accessToken = await requestEvent.request.headers.get("authorization");
-        const loginTime = await requestEvent.request.headers.get("loginTime");
-
-        if (isValidToken(accessToken, loginTime)) {
-            // Access token is valid, proceed with fetching data from Firebase
-            const dbref = ref(db);
-            const entries = await get(child(dbref, 'entries'));
-            if (entries.exists()) {
-                return new Response(JSON.stringify(entries.val()), { status: 200 });
-            } else {
-                return new Response('entries not found', { status: 404 });
-            }
-        } else {
-            // Access token is invalid, return an unauthorized response
-            return new Response('Unauthorized', { status: 401 });
-        }
-    } catch (error) {
-        // Handle any errors
-        console.error(error);
-        return new Response('entries not found', { status: 500 });
-    }
+	const username = await requestEvent.request.headers.get('username');
+	const password = await requestEvent.request.headers.get('password');
+	try {
+		const entryData = await signInWithEmailAndPassword(auth, username, password)
+			.then(async (userCredential) => {
+				// Now you can read from the database
+				const dbref = ref(db);
+				const entries = await get(child(dbref, 'entries'));
+				return new Response(JSON.stringify(entries.val()));
+			})
+			.catch((error) => {
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				// Handle Errors here.
+				throw new Error(errorCode + errorMessage);
+			});
+		return entryData;
+	} catch (error) {
+		console.log(error);
+		return new Response('ERROR');
+	}
 }
 
 // Define the POST function to send data to Firebase
 export async function POST(requestEvent) {
-    try {
-
-        // Get the data from the request body
-        const { name, age, email, phone } = await requestEvent.request.json();;        
-        // Save the data to Firebase
-        await set(ref(db, 'entries/' + name + phone), {
-            name: name,
-            age: age,
-            email: email,
-            phone: phone
-        });
-        
-        // Send a success response
-        return new Response('contest entered successfully! ' + name, { status: 200 });
-    } catch (error) {
-        // Handle any errors
-        console.error(error);
-        return new Response('Invalid entity', { status: 400 });
-    }
-}
-
-
-//define a function to validate the user access token
-async function isValidToken(accessToken, loginTime) {
-    try {
-        // Validate the access token
-        // const user = await signInWithCustomToken(auth, accessToken);
-        // Validate the login time
-        // if (user.metadata.lastSignInTime === loginTime) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
-        if (accessToken && loginTime < Date.now() - (2 * 60 * 60 * 1000)) {
-            return true;
-        } else {
-            return false;
-        }
-    } catch (error) {
-        console.error(error);
-        return false;
-    }
+	try {
+		// Get the data from the request body
+		const { name, age, email, phone } = await requestEvent.request.json();
+		// Save the data to Firebase
+         await set(ref(db, 'entries/' + name + phone), {
+			name: name,
+			age: age,
+			email: email,
+			phone: phone
+		});
+		// Send a success response
+		return new Response('contest entered successfully! ' + name, { status: 200 });
+	} catch (error) {
+		// Handle any errors
+		console.error(error);
+		return new Response('Invalid entity', { status: 400 });
+	}
 }

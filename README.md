@@ -19,8 +19,8 @@ create RTDB - test mode - no auth required
 ```
 {
   "rules": {
-    ".read": "now < 1717826400000",  // 2024-6-8
-    ".write": "now < 1717826400000",  // 2024-6-8
+    ".read": "auth != null && auth.uid ==='JPOV69aKFgO24zEc84XvMeh2b0v2'",
+    ".write": "auth != null && auth.uid != null"
   }
 }
 ```
@@ -28,11 +28,8 @@ create RTDB - test mode - no auth required
 security kindof sucks eggs but for MOST people it should keep them away, unless they find a way to interact directly with the RTDB. 
 
 ## todo
-- create raffle draw logic
+
 - create way to export user data as a manager
 - style
-- refine security by applying rules on RTDB and DB calls
-  - env user to WRITE calls
-  - login user to READ 
-  - https://firebase.google.com/docs/database/security#section-authorization
 - test and document deployment 
+- QR code

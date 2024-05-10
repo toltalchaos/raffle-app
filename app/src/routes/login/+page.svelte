@@ -1,6 +1,5 @@
 <script>
 	import { goto } from '$app/navigation';
-	export let data; //get the async data from our server file
 
 	let username = '';
 	let password = '';
@@ -18,9 +17,8 @@
 			});
 			if (response.ok) {
 				// Store user credentials in local storage
-				const userData = await response.json();
-				localStorage.setItem('userToken', userData.stsTokenManager.accessToken);
-				localStorage.setItem('user', JSON.stringify(userData.user));
+				localStorage.setItem('username', username);
+				localStorage.setItem('password', password);
 				localStorage.setItem("loginTime", new Date().getTime());
 
 				goto('/admin');

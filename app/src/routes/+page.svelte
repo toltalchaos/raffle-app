@@ -6,15 +6,12 @@
 
 
     async function handleSubmit(event) {
-        event.preventDefault();
-
         const formData = {
             name,
             age,
             email,
             phone
         };
-
         // Send form data to server
         const resp = await fetch('/api', {
             method: 'POST',
@@ -22,9 +19,8 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(formData)
-        })
-
-        alert(resp.text());
+        });
+        alert(await resp.text());
     }
     
 </script>
