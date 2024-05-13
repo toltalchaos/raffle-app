@@ -39,7 +39,6 @@ https://www.youtube.com/watch?v=W-kII4idtfE
 
 
 ## todo
-- test and document deployment 
-- QR code
+- get feedback for TODOs
 
 ![alt text](image.png)
