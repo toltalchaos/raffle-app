@@ -12,7 +12,7 @@ create RTDB with the following rule modified for the admin
 ```
 {
   "rules": {
-    ".read": "auth != null && auth.uid ==='JPOV69aKFgO24zEc84XvMeh2b0v2'",
+    ".read": "auth != null && auth.uid ==='<insertuseridhere>'",
     ".write": true
   }
 }
