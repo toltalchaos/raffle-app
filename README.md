@@ -39,6 +39,7 @@ https://www.youtube.com/watch?v=W-kII4idtfE
 
 
 ## todo
-- style
 - test and document deployment 
 - QR code
+
+![alt text](image.png)

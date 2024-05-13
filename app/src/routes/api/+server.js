@@ -61,11 +61,11 @@ export async function GET(requestEvent) {
 export async function POST(requestEvent) {
 	try {
 		// Get the data from the request body
-		const { name, age, email, phone } = await requestEvent.request.json();
+		const { name, dateOfBirth, email, phone } = await requestEvent.request.json();
 		// Save the data to Firebase
          await set(ref(db, 'entries/' + name + phone), {
 			name: name,
-			age: age,
+			dateOfBirth: dateOfBirth,
 			email: email,
 			phone: phone
 		});
