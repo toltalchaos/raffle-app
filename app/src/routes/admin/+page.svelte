@@ -51,7 +51,7 @@
 		<div class="chosen-entry">
 			<h2>Chosen Entry</h2>
 			<p>Name: {chosenEntry.name}</p>
-			<p>Age: {chosenEntry.age}</p>
+			<p>Age: {chosenEntry.dateOfBirth}</p>
 			<p>Email: {chosenEntry.email}</p>
 			<p>Phone Number: {chosenEntry.phone}</p>
 		</div>
@@ -64,7 +64,7 @@
 			{#each Object.keys(raffleEntries) as entryKey}
 				<li>
 					<p>Name: {raffleEntries[entryKey].name}</p>
-					<p>Age: {raffleEntries[entryKey].age}</p>
+					<p>Age: {raffleEntries[entryKey].dateOfBirth}</p>
 					<p>Email: {raffleEntries[entryKey].email}</p>
 					<p>Phone Number: {raffleEntries[entryKey].phone}</p>
 				</li>

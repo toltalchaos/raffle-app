@@ -1,13 +1,17 @@
 <script>
 	let name = '';
-	let age = '';
+	let dateOfBirth = '';
 	let email = '';
 	let phone = '';
 
 	async function handleSubmit(event) {
+		if (new Date(dateOfBirth) > new Date(new Date().getFullYear() - 18, new Date().getMonth(), new Date().getDate())) {
+			alert("You must be at least 18 years old to submit the form.");
+			return;
+		}
 		const formData = {
 			name,
-			age,
+			dateOfBirth,
 			email,
 			phone
 		};
@@ -30,9 +34,9 @@
 			<input type="text" id="name" name="name" required bind:value={name} />
 		</label>
 
-		<label for="age"
-			>Age:
-			<input type="number" id="age" name="age" required bind:value={age} />
+		<label for="dateOfBirth"
+			>Date of Birth:
+			<input type="date" id="dateOfBirth" name="dateOfBirth" required bind:value={dateOfBirth} max="{new Date().toISOString().split('T')[0]}" />
 		</label>
 
 		<label for="email"
