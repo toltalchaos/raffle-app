@@ -27,6 +27,9 @@
 	}
 
 	onMount(async () => {
+	if(!localStorage.getItem('username') || !localStorage.getItem('password')) {
+		window.location.href = '/login';
+	}
 		try {
 			const response = await fetch('/api', {
 				method: 'GET',
